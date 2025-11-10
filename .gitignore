@@ -1,9 +1,4 @@
-# Python cache
+venv/
 __pycache__/
 *.pyc
-
-# Virtual environment
-venv/
-
-# Nohup output
 nohup.out

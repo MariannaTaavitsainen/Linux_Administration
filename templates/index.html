@@ -23,12 +23,13 @@
             min-height: 200px; /* Kuvalle tilaa */
         }
 
-        /* Kuva liukuu absoluuttisesti */
+        /* Kuva liukuu ja skaalaa */
         .moving-image {
             position: absolute;
-            top: 0;
-            left: 100%; /* alkaa oikealta */
-            max-width: 200px; /* haluttu koko */
+            top: 50%; 
+            left: 50%; /* keskitetty vaakasuunnassa */
+            transform: translate(-50%, -50%) scale(1); /* keskitys ja skaalaus */
+            max-width: 200px;
             height: auto;
             border:2px solid #fff;
             border-radius:8px;
@@ -37,7 +38,7 @@
 </head>
 <body>
     <h1>Tervetuloa sivulleni!</h1>
-    <p>On tämä saatana työmaa</p>
+    <p>Oli helppoa. Joilleki.</p>
 
     <div class="image-container">
         <img src="https://images.cdn.yle.fi/image/upload/w_1024,dpr_1.0,fl_lossy,f_auto,q_auto,d_yle-elava-arkisto.jpg/v1599560995/13-26-108691.jpg"
@@ -62,23 +63,27 @@
         }
         setInterval(updateTime, 1000);
 
-        // Liukuva Tonnin seteli -kuva (loop)
+        // Liukuva ja skaalaava kuva
         const img = document.getElementById("moving-image");
-        let pos = window.innerWidth; // alkaa oikealta
+        let scale = 1;
+        let growing = true;
 
-        function moveImage() {
-            pos -= 1; // nopeus, pienempi = hitaampi liike
-            img.style.left = pos + "px";
-
-            // Kun kuva on kokonaan vasemmalla, aloita uudestaan oikealta
-            if (pos + img.offsetWidth < 0) {
-                pos = window.innerWidth;
+        function animateImage() {
+            // Skaalaus: suurenee ja pienenee 0.8 - 1.2 välillä
+            if (growing) {
+                scale += 0.005;
+                if (scale >= 1.2) growing = false;
+            } else {
+                scale -= 0.005;
+                if (scale <= 0.8) growing = true;
             }
 
-            requestAnimationFrame(moveImage);
+            img.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+            requestAnimationFrame(animateImage);
         }
 
-        moveImage();
+        animateImage();
     </script>
 </body>
 </html>

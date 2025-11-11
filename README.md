@@ -10,4 +10,4 @@ Käytä Githubia versionhallintaan (tämä helpottaa seuraavia tehtäviä)
 Personoi sivua."
 
 Linkki:
-[avaaURL](http://86.50.23.8/)
+[Ihaile lopputulostani](http://86.50.23.8/)

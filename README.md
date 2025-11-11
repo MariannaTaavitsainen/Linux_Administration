@@ -9,5 +9,4 @@ Käytä Githubia versionhallintaan (tämä helpottaa seuraavia tehtäviä)
 
 Personoi sivua."
 
-Linkki:
-[Ihaile lopputulostani](http://86.50.23.8/)
+[Linkki sivustolleni](http://86.50.23.8/)

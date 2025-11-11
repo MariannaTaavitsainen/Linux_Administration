@@ -4,21 +4,53 @@
     <meta charset="UTF-8">
     <title>Oma LEMP-sivu</title>
     <style>
-        body { font-family: sans-serif; background-color: #6e6e6eff; color: rgba(219, 21, 97, 1); text-align:center; padding-top:50px; }
+        body { 
+            font-family: sans-serif; 
+            background-color: #6e6e6eff; 
+            color: rgba(219, 21, 97, 1); 
+            text-align:center; 
+            padding-top:50px; 
+        }
         .time { font-size: 2em; }
+
+        /* Kuvalle kontti */
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            margin-top: 20px;
+            min-height: 200px; /* Kuvalle tilaa */
+        }
+
+        /* Kuva liukuu absoluuttisesti */
+        .moving-image {
+            position: absolute;
+            top: 0;
+            left: 100%; /* alkaa oikealta */
+            max-width: 200px; /* haluttu koko */
+            height: auto;
+            border:2px solid #fff;
+            border-radius:8px;
+        }
     </style>
 </head>
 <body>
     <h1>Tervetuloa sivulleni!</h1>
     <p>On tämä saatana työmaa</p>
-    <img src="https://images.cdn.yle.fi/image/upload/w_1024,dpr_1.0,fl_lossy,f_auto,q_auto,d_yle-elava-arkisto.jpg/v1599560995/13-26-108691.jpg" 
-     alt="Tonnin seteli" 
-     style="max-width:80%; height:auto; margin-top:20px; border:2px solid #fff; border-radius:8px;">
+
+    <div class="image-container">
+        <img src="https://images.cdn.yle.fi/image/upload/w_1024,dpr_1.0,fl_lossy,f_auto,q_auto,d_yle-elava-arkisto.jpg/v1599560995/13-26-108691.jpg"
+             alt="Tonnin seteli"
+             class="moving-image"
+             id="moving-image">
+    </div>
+
     <h2>SQL UTC-aika:</h2>
     <div class="time" id="utc-time">{{ utc_time }}</div>
 
-    <!-- JavaScript liikkuvalle UTC-kellolle -->
     <script>
+        // Päivittyvä UTC-aika
         async function updateTime() {
             try {
                 const response = await fetch('/api/utc-time');
@@ -28,9 +60,25 @@
                 console.error("Virhe päivitettäessä aikaa:", err);
             }
         }
-
-        // Päivitä aika joka sekunti
         setInterval(updateTime, 1000);
+
+        // Liukuva Tonnin seteli -kuva (loop)
+        const img = document.getElementById("moving-image");
+        let pos = window.innerWidth; // alkaa oikealta
+
+        function moveImage() {
+            pos -= 1; // nopeus, pienempi = hitaampi liike
+            img.style.left = pos + "px";
+
+            // Kun kuva on kokonaan vasemmalla, aloita uudestaan oikealta
+            if (pos + img.offsetWidth < 0) {
+                pos = window.innerWidth;
+            }
+
+            requestAnimationFrame(moveImage);
+        }
+
+        moveImage();
     </script>
 </body>
 </html>

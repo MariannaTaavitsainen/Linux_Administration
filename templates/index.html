@@ -8,29 +8,33 @@
             font-family: sans-serif; 
             background-color: #333333; 
             color: rgba(219, 21, 97, 1); 
-            text-align:center; 
-            padding-top:50px; 
+            text-align: center; 
+            padding-top: 50px; 
         }
-        .time { font-size: 2em; }
+        .time { 
+            font-size: 2em; 
+            margin-top: 30px;
+        }
 
+        /* Kuvalle kontti */
         .image-container {
             position: relative;
             width: 100%;
-            height: auto;
-            overflow: hidden;
-            margin-top: 20px;
-            min-height: 200px;
+            max-width: 400px;  /* maksimileveys ruudulle */
+            margin: 0 auto;     /* keskitys vaakasuunnassa */
+            padding: 50px 0;    /* ylimääräinen tila ylä- ja alapuolella */
+            overflow: visible;
         }
 
+        /* Kuva liukuu keskellä ja skaalaa kulmittain */
         .moving-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1,1);
-            max-width: 200px;
+            display: block;
+            margin: 0 auto; 
+            max-width: 100%;
             height: auto;
-            border:2px solid #fff;
-            border-radius:8px;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            transform: scale(1,1);
         }
     </style>
 </head>
@@ -61,11 +65,11 @@
         }
         setInterval(updateTime, 1000);
 
-        // Skaalaus kulmittain
+        // Kulmaskaalaus (X ja Y) loop
         const img = document.getElementById("moving-image");
         let scaleX = 1, scaleY = 1;
         let growing = true;
-        const speed = 0.0025; // puolet hitaampi kuin aiemmin
+        const speed = 0.0025; // puolta hitaampi kuin alkuperäinen
 
         function animateImage() {
             if (growing) {
@@ -78,7 +82,7 @@
                 if (scaleX <= 1 || scaleY <= 1) growing = true;
             }
 
-            img.style.transform = `translate(-50%, -50%) scale(${scaleX}, ${scaleY})`;
+            img.style.transform = `scale(${scaleX}, ${scaleY})`;
 
             requestAnimationFrame(animateImage);
         }
